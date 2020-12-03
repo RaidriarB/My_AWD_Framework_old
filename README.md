@@ -2,11 +2,16 @@
 
 ## 预期功能
 
-你需要修改：submit包下的提交flag逻辑，以及每个payload
+你需要修改
+
+core/submit/submit.py的提交flag逻辑
+
+core/payload/...中的攻击逻辑
 
 在每一轮打的时候，只需要执行这个，就可以全面攻击
 ```python
-python3 attack.py
+cd core
+python3 main.py
 ```
 运行结果:
 ```
@@ -69,9 +74,17 @@ conf：各种配置文件
 payload：自己写的攻击脚本
 
 flag：存放打好的flag
-flag.current_flag：本轮的flag
-flag.backup：之前flag备份文件
+
+flag/current_flag：本轮的flag
+
+flag/backup：之前flag备份文件
 
 core：核心文件
-core.attack：攻击主机，返回flag
-core.submit：把flag提交上去
+
+core/attack：攻击主机，返回flag
+
+core/submit：把flag提交上去
+
+core/utils：一些通用功能
+
+core/payload：你编写的用于攻击的payload
