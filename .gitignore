@@ -1,0 +1,5 @@
+#缓存文件
+__pycache__/
+
+#flag文件
+*.flag
