@@ -1,6 +1,3 @@
-
-# 这个路径好像只能在包内测试
-
 def load_config(config):
 	conf_dict = {}
 	with open(config,"r") as config:

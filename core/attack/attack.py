@@ -8,6 +8,9 @@ from utils import *
 from payload import *
 from submit import *
 
+'''
+使用单个payload攻击iplist中所有主机
+'''
 def attack_one(method,iplist):
 
 	flags = []
@@ -18,8 +21,7 @@ def attack_one(method,iplist):
 		for ip in iplist:
 
 			# 执行攻击脚本获取flag
-			#flag = attacktest.attack_test1(ip)
-			flag = method(ip)
+			flag = eval("getflag." + method)(ip)
 
 			# 输出信息
 			if flag == None:
@@ -31,41 +33,35 @@ def attack_one(method,iplist):
 			print("-"*30)
 
 	except Exception as e:
-		print("攻击脚本出错！出错脚本为【%s】"%method.__name__)
-		
+		print("攻击脚本出错！出错脚本为【%s】"%method)
 		#raise(e) #不需要抛出
 	
 	return flags
 
 '''
-攻击所有主机
+用所有payload攻击所有主机
 攻击方法名需要手动指定
 '''
 def attack_all(iplist):
 	all_round_flags = []
+	attack_method = []
 
-	try:
-		attack_method = [
-			attacktest.attack_test1,
-			attacktest.attack_error_test1,
-			attacktest.attack_test2
-		]
-	except Exception as e:
-		raise(e)
-		sys.exit("攻击方法名未定义")
+	# 获取attack/getflag.py的所有方法
+	ori_method = dir(getflag)
+	for met in ori_method:
+		if not met.startswith("__"):
+			attack_method.append(met)
 
 	for method in attack_method:
 		try:
-			print("使用攻击脚本: 【%s】"%method.__name__)
+			print("使用攻击脚本: 【%s】" % method)
 			print("="*40)
 
 			flags = attack_one(method,iplist)
-			#print(flags)
 			all_round_flags.append(flags)
-			#print(all_round_flags)
 
 		except Exception as e:
-			print("方法出错："+method.__name__)
+			print("方法出错：" + method)
 			raise(e)
 		print("="*40)
 	
