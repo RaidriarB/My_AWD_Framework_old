@@ -3,6 +3,8 @@
 方法应该传入被攻击主机ip（格式：127.0.0.1）
 应该返回可以提交的flag字符串
 请不要在这里输出额外信息。
+
+注：记得加上timeout
 '''
 
 def attack_test1(ip):
@@ -22,3 +24,5 @@ def attack_error_test1(ip):
 	a = 1/0 # Exception
 	return "flag{you_should_not_see_this}"
 
+def attack_duplicate_test(ip):
+	return "flag{ip_is_%s}"%ip

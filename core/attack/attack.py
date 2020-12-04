@@ -14,8 +14,8 @@ from submit import *
 def attack_one(method,iplist):
 
 	flags = []
-	print("[+] 获取flag中...")
-	print("-"*30)
+	print("  [+] 获取flag中...")
+	print("  "+"-"*30)
 
 	try:
 		for ip in iplist:
@@ -25,12 +25,12 @@ def attack_one(method,iplist):
 
 			# 输出信息
 			if flag == None:
-				print("[x] 主机 {} 的flag没有获取到".format(ip))
+				print("  [x] 主机 {} 的flag没有获取到".format(ip))
 			else:
-				print("[√] 主机 {} 的flag获取成功！".format(ip))
-				print(flag)
+				print("  [√] 主机 {} 的flag获取成功！".format(ip))
+				print("  "+flag)
 				flags.append((ip,flag))
-			print("-"*30)
+			print("  "+"-"*30)
 
 	except Exception as e:
 		print("攻击脚本出错！出错脚本为【%s】"%method)

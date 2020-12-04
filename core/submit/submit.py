@@ -1,6 +1,6 @@
 import requests
 
-flag_api = "http://osk53t.ceye.io/api"
+flag_api = "http://127.0.0.1:8888/api"
 
 '''
 提交flag的逻辑需要在这里编写
@@ -12,7 +12,7 @@ def submit_flag(flag,host):
 		return False
 
 	r = requests.get(flag_api,params={"flag":flag,"host":host})
-	if r.status_code == 200:
+	if r.status_code == 404:
 		return True
 	else:
 		return False
