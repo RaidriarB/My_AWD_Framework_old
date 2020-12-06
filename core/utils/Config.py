@@ -1,6 +1,8 @@
-def load_config(config):
+CONFIG_FILE = "./../conf/config"
+
+def load_config():
 	conf_dict = {}
-	with open(config,"r") as config:
+	with open(CONFIG_FILE,"r") as config:
 		text = config.read()
 		lines = text.split("\n")
 
@@ -15,10 +17,20 @@ def load_config(config):
 			conf_dict[key] = value
 	return conf_dict
 
-def load_ip_list(config):
-	config_dict = load_config(config)
+def load_target_list():
+	config_dict = load_config()
 	
 	# 列表生成式格式
-	ip_rules = config_dict["iplist"]
-	iplist = eval(ip_rules)
-	return iplist
+	target_rules = config_dict["target_list"]
+	target_list = eval(target_rules)
+	return target_list
+
+def load_self_host():
+	config_dict = load_config()
+	self_host = config_dict["self_host"]
+	return self_host
+
+def load_shell_pass():
+	config_dict = load_config()
+	shell_pass = config_dict["shell_pass"]
+	return shell_pass

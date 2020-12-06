@@ -1,5 +1,12 @@
 # AWD框架 开发文档
 
+## 接下来要做的
+
++ 弄一个log记录flag、打成功失败的主机信息
++ 弄一个数据库或者文件用来存放信息
++ 后门自动上传与利用
++ 做一个RCE自动利用模板，只要传入命令就可以
+
 ## 预期功能
 
 你需要修改
@@ -8,23 +15,27 @@ core/submit/submit.py的提交flag逻辑
 
 core/payload/getflag.py中的攻击逻辑
 为区分方法，这个文件中的攻击函数请以`attack_`开头，否则程序不识别
+
 ```python
 	# 获取attack/getflag.py的所有方法
-	ori_method = dir(getflag)
-	for met in ori_method:
-		if not met.startswith("__"):
-			if met.startswith("attack"):
-				attack_method.append(met)
+ori_method = dir(getflag)
+for met in ori_method:
+  if not met.startswith("__"):
+    if met.startswith("attack"):
+      attack_method.append(met)
 ```
 
 在每一轮打的时候，只需要执行这个，就可以全面攻击
+
 ```python
 cd core
 python3 main.py
 ```
-运行结果:
+
+测试运行结果:
+
 ```
-[!] 初始化完成，iplist为
+[!] 初始化完成，target_list为
 ['172.17.1.1', '172.17.2.1', '172.17.3.1']
 准备进攻全场
 使用攻击脚本: 【attack_test1】
@@ -76,6 +87,7 @@ flag{ip_is_172.17.3.1}
 本轮提交完成，成功提交4个，失败提交1个
 
 ```
+
 ## 文件说明
 
 conf：各种配置文件

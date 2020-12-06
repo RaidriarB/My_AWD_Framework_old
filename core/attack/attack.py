@@ -4,37 +4,41 @@ import os
 #print(os.getcwd())
 #sys.path.append(os.getcwd().split("/attack")[0])
 
-from core.utils import *
-from core.payload import *
-from core.submit import *
+from utils import *
+from payload import *
+from submit import *
 
 '''
-使用单个payload攻击iplist中所有主机
+使用单个payload攻击target_list中所有主机
 '''
-def attack_one(method,iplist):
+def attack_one(method,target_list):
 
 	flags = []
+	success_attack = 0
+	fail_attack = 0
+
 	print("  [+] 获取flag中...")
-	print("  "+"-"*30)
 
 	try:
-		for ip in iplist:
+		for target in target_list:
 
 			# 执行攻击脚本获取flag
-			flag = eval("getflag." + method)(ip)
+			flag = eval("getflag." + method)(target)
 
 			# 输出信息
 			if flag == None:
-				print("  [x] 主机 {} 的flag没有获取到".format(ip))
+				fail_attack += 1
+				print("  [x] 主机 {} 的flag没有获取到".format(target))
 			else:
-				print("  [√] 主机 {} 的flag获取成功！".format(ip))
-				print("  "+flag)
-				flags.append((ip,flag))
-			print("  "+"-"*30)
+				success_attack += 1
+				print("  [√] 主机 {} 获取成功！".format(target)+flag)
+				flags.append((target,flag))
 
 	except Exception as e:
 		print("攻击脚本出错！出错脚本为【%s】"%method)
 		#raise(e) #不需要抛出
+	
+	print("\n  [!] 攻击完毕，成功获取{}个，失败获取{}个".format(success_attack,fail_attack))
 	
 	return flags
 
@@ -42,7 +46,8 @@ def attack_one(method,iplist):
 用所有payload攻击所有主机
 攻击方法名需要手动指定
 '''
-def attack_all(iplist):
+def attack_all(target_list):
+
 	all_round_flags = []
 	attack_method = []
 
@@ -58,7 +63,7 @@ def attack_all(iplist):
 			print("使用攻击脚本: 【%s】" % method)
 			print("="*40)
 
-			flags = attack_one(method,iplist)
+			flags = attack_one(method,target_list)
 			all_round_flags.append(flags)
 
 		except Exception as e:
@@ -67,3 +72,9 @@ def attack_all(iplist):
 		print("="*40)
 	
 	return all_round_flags
+
+def put_backdoor_all(method,target_list):
+	pass
+
+def exp_backdoor_all(target_list):
+	pass
