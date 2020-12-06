@@ -6,7 +6,16 @@
 
 core/submit/submit.py的提交flag逻辑
 
-core/payload/...中的攻击逻辑
+core/payload/getflag.py中的攻击逻辑
+为区分方法，这个文件中的攻击函数请以`attack_`开头，否则程序不识别
+```python
+	# 获取attack/getflag.py的所有方法
+	ori_method = dir(getflag)
+	for met in ori_method:
+		if not met.startswith("__"):
+			if met.startswith("attack"):
+				attack_method.append(met)
+```
 
 在每一轮打的时候，只需要执行这个，就可以全面攻击
 ```python

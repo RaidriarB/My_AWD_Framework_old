@@ -1,28 +1,70 @@
+import requests
+import sys
+import os
+#print(os.getcwd())
+#sys.path.append(os.getcwd().split("/attack")[0])
+
+from utils import *
+from payload import *
+from submit import *
+
 '''
-这里的所有方法都会被执行，用于获取flag。
-方法应该传入被攻击主机ip（格式：127.0.0.1）
-应该返回可以提交的flag字符串
-请不要在这里输出额外信息。
-
-注：记得加上timeout
+使用单个payload攻击iplist中所有主机
 '''
+def attack_one(method,iplist):
 
-def attack_test1(ip):
+	flags = []
+	print("  [+] 获取flag中...")
+	print("  "+"-"*30)
 
-	if ip == "172.17.2.1":
-		return None	
-	host = "http://%s:8080" % ip
-	flag = "flag{host_is_%s}" % host
-	return flag
+	for ip in iplist:
+		try:
 
-def attack_test2(ip):
+			# 执行攻击脚本获取flag
+			flag = eval("getflag." + method)(ip)
 
-	return "flag{ip_is_%s}"%ip
+			# 输出信息
+			if flag == None:
+				print("  [x] 主机 {} 的flag没有获取到".format(ip))
+			else:
+				print("  [√] 主机 {} 的flag获取成功！".format(ip))
+				print("  "+flag)
+				flags.append((ip,flag))
+			print("  "+"-"*30)
+		except Exception as e:
+			print("攻击脚本出错！出错脚本为【%s】"%method)
+			#raise(e) #不需要抛出
+	
+	return flags
 
-def attack_error_test1(ip):
+'''
+用所有payload攻击所有主机
+攻击方法名需要手动指定
+'''
+def attack_all(iplist):
+	all_round_flags = []
+	attack_method = []
 
-	a = 1/0 # Exception
-	return "flag{you_should_not_see_this}"
+	# 获取attack/getflag.py的所有方法
+	ori_method = dir(getflag)
+	for met in ori_method:
 
-def attack_duplicate_test(ip):
-	return "flag{ip_is_%s}"%ip
+		if not met.startswith("__"):
+			if "attack" in met:
+				attack_method.append(met)
+
+	for method in attack_method:
+		try:
+			print("使用攻击脚本: 【%s】" % method)
+			print("="*40)
+
+			flags = attack_one(method,iplist)
+			all_round_flags.append(flags)
+
+		except Exception as e:
+			print("方法出错：" + method)
+			raise(e)
+		print("="*40)
+	
+	return all_round_flags
+

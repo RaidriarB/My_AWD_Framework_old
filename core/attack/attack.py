@@ -4,9 +4,9 @@ import os
 #print(os.getcwd())
 #sys.path.append(os.getcwd().split("/attack")[0])
 
-from utils import *
-from payload import *
-from submit import *
+from core.utils import *
+from core.payload import *
+from core.submit import *
 
 '''
 使用单个payload攻击iplist中所有主机
@@ -50,7 +50,8 @@ def attack_all(iplist):
 	ori_method = dir(getflag)
 	for met in ori_method:
 		if not met.startswith("__"):
-			attack_method.append(met)
+			if met.startswith("attack"):
+				attack_method.append(met)
 
 	for method in attack_method:
 		try:

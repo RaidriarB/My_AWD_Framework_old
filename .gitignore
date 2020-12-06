@@ -1,5 +1,11 @@
-#缓存文件
+# 缓存文件
 __pycache__/
 
-#flag文件
+# flag文件
 *.flag
+
+# 苹果自动生成
+.DS_Store
+
+# pycharm生成
+.idea
